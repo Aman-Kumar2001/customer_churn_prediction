@@ -37,9 +37,9 @@ class Customer(BaseModel):
 
     tenure : Annotated[int, Field(..., description="Total tenure of subscription", gt=0, title="Tenure")]
 
-    MonthlyCharges : Annotated[int, Field(..., description="Amount of monthly charge", gt=0, title="Monthly Charge")]
+    MonthlyCharges : Annotated[float, Field(..., description="Amount of monthly charge", gt=0, title="Monthly Charge")]
 
-    TotalCharges : Annotated[int, Field(..., description="Total amount of charges", gt=0, title="Total Charge")]
+    TotalCharges : Annotated[float, Field(..., description="Total amount of charges", gt=0, title="Total Charge")]
 
     
     @computed_field

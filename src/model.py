@@ -7,12 +7,15 @@ from src.feature_creation import new_features
 from src.preprocessing import preprocess_data
 import joblib
 
-train = pd.read_csv("data/train.csv")
+train = pd.read_csv("data/train.csv", index_col='id')
+print("Data set successfully loaded....")
 
 y = train["Churn"]
 X = train.drop(columns=["Churn"])
 
 X, y = new_features(X, y)
+
+print("New feature generated...")
 
 num_cols = ['tenure', 'MonthlyCharges', 'TotalCharges', 'AverageCharges', 'ServiceSupport', 'trusted', 'StreamService']
 
@@ -24,6 +27,8 @@ preprocessing = preprocess_data(num_cols, ord_cat_cols, nom_cat_cols)
 
 kf = KFold(n_splits=5, shuffle=True, random_state=1)
 y = pd.DataFrame({"Churn":y})
+
+print("Model training started....")
 
 for fold, (tr_idx, val_idx) in enumerate(kf.split(X)):
     
@@ -48,4 +53,7 @@ for fold, (tr_idx, val_idx) in enumerate(kf.split(X)):
     model.fit(X_tr, y_tr)
 
 
+print("Model finally trained, ready to be dumped....")
 joblib.dump(model, "artifacts/model.pkl")
+
+print("Model dumped successfully!")
